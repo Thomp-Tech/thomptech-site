@@ -83,3 +83,18 @@ nav a:hover{color:var(--blue)}
 .features li::before{content:"";position:absolute;left:0;top:.45em;width:10px;height:10px;border-radius:3px;background:var(--blue)}
 .features strong{color:var(--navy)}
 @media(min-width:801px){#devlog .duo-img{flex:1;min-height:0}#devlog .duo-img img{height:100%;aspect-ratio:auto}#devlog .duo-body{flex:0 0 auto}}
+/* floating logo */
+.nav-row{position:relative;justify-content:flex-end}
+.brand{position:absolute;left:24px;top:8px;z-index:20;transition:transform .3s ease}
+.brand img{height:150px;width:auto;filter:drop-shadow(0 8px 14px rgba(11,31,58,.35)) drop-shadow(0 2px 3px rgba(11,31,58,.25));transition:height .3s ease}
+.site-header.scrolled .brand img{height:64px}
+.hero-inner{padding-top:90px}
+@media(max-width:640px){
+ .nav-row{flex-direction:row;height:64px;padding:0 12px 0 104px;justify-content:flex-end}
+ .brand{left:12px;top:6px}
+ .brand img{height:80px}
+ .site-header.scrolled .brand img{height:52px}
+ nav{gap:4px 12px;justify-content:flex-end}nav a{font-size:.8rem}
+ html{scroll-padding-top:72px}
+ .hero-inner{padding-top:50px}
+}
