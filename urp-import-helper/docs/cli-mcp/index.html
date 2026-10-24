@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CLI &amp; MCP Quick Start | URP Import Helper Docs | Thomp Tech</title>
+<meta name="description" content="Optional Unity 6+ CLI and MCP integration for URP Import Helper by Thomp Tech.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/urp-import-helper/urpih.css">
+<link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body class="docs-page">
+<header class="site-header">
+  <div class="wrap nav-row">
+    <a href="/" class="brand"><img src="/images/logo-float.png?v=2" alt="Thomp Tech Game Dev logo"></a>
+    <nav><a href="/urp-import-helper/">URP Import Helper</a><a href="/urp-import-helper/docs/">Docs</a><a href="/#contact">Contact</a></nav>
+  </div>
+</header>
+<div class="wrap docs-layout">
+<aside class="docs-side">
+  <details open><summary>URP Import Helper Docs</summary>
+  <p class="side-h">Guides</p>
+  <ul><li><a href="/urp-import-helper/docs/">Getting Started</a></li><li><a href="/urp-import-helper/docs/cli-mcp/" class="active">CLI &amp; MCP Quick Start</a></li></ul>
+  <p class="side-h">On this page</p>
+  
+<ul>
+<li><a href="#1-requirements">1. Requirements</a></li>
+<li><a href="#2-discover-the-commands">2. Discover the commands</a></li>
+<li><a href="#3-analyze-before-you-convert">3. Analyze before you convert</a></li>
+<li><a href="#4-confirm-conversion">4. Confirm conversion</a></li>
+<li><a href="#5-headless-runs-and-mcp">5. Headless runs and MCP</a></li>
+<li><a href="#6-understand-the-result">6. Understand the result</a></li>
+<li><a href="#7-troubleshooting-and-recovery">7. Troubleshooting and recovery</a></li>
+</ul>
+
+
+  <p class="side-h">Support</p>
+  <ul><li><a href="mailto:contact@thomptech.net">contact@thomptech.net</a></li></ul>
+  </details>
+</aside>
+<main class="docs-main">
+<p class="crumbs"><a href="/urp-import-helper/">URP Import Helper</a> / Docs / CLI &amp; MCP Quick Start</p>
+<h1 id="cli-mcp-quick-start-urp-import-helper">CLI &amp; MCP Quick Start — URP Import Helper</h1>
+<p><strong>By Thomp Tech · Optional Unity 6+ integration</strong></p>
+<p>URP Import Helper works normally inside Unity without the CLI or MCP. Use this guide only if you want to analyze or convert materials through commands or an AI agent.</p>
+<h2 id="1-requirements">1. Requirements</h2>
+<ul>
+<li>A <strong>Unity 6+</strong> project with URP installed <strong>and active</strong>.</li>
+<li><strong>URP Import Helper installed in that project</strong>. Owning the Asset Store asset alone does not register commands.</li>
+<li>Unity CLI installed and connected to the relevant Unity Editor/project, or an MCP-capable client connected through <code>unity mcp</code>.</li>
+<li>Unity's optional <strong><code>com.unity.pipeline</code> version <code>0.8.0-exp.1</code></strong> installed in the project through Package Manager. This exact version is the currently tested adapter pin; other versions do not enable these commands unless a later URP Import Helper release explicitly supports them.</li>
+</ul>
+<p>The tool includes its optional <code>Editor/Pipeline</code> adapter. When the required Pipeline version is present, Unity compiles the adapter and registers the commands. The core tool still works without Pipeline, including in the best-effort Unity 2022.3 Editor workflow; the CLI/MCP adapter is Unity 6+ only.</p>
+<h2 id="2-discover-the-commands">2. Discover the commands</h2>
+<p>With the Unity CLI configured for your project, list URP Import Helper commands:</p>
+<pre><code class="language-sh">unity command --query urpih
+</code></pre>
+<p>You should find:</p>
+<ul>
+<li><strong><code>urpih_analyze_materials</code></strong> — read-only check of a <code>.mat</code> file or an <code>Assets/...</code> folder.</li>
+<li><strong><code>urpih_convert_materials</code></strong> — converts only materials judged safe, and requires <code>confirm true</code>.</li>
+</ul>
+<p>If they aren't listed, see Troubleshooting below. An unsupported Pipeline version intentionally leaves the adapter inactive; it doesn't prevent the normal Editor menu from working.</p>
+<h2 id="3-analyze-before-you-convert">3. Analyze before you convert</h2>
+<p>Use a project-relative path such as <code>Assets/MyImportedPack</code> or a single <code>Assets/.../Material.mat</code>. Analyze first:</p>
+<pre><code class="language-sh">unity command urpih_analyze_materials --path Assets/MyImportedPack --result-only
+</code></pre>
+<p>This is <strong>read-only</strong>. It doesn't change materials, mode, pending imports, Undo state, or UI. Review the returned <code>counts</code>, <code>materials</code>, <code>byShader</code>, <code>nextActions</code>, <code>outcome</code> and <code>severity</code> before deciding what to do.</p>
+<h2 id="4-confirm-conversion">4. Confirm conversion</h2>
+<p>Only if you want to change the supported materials at that path:</p>
+<pre><code class="language-sh">unity command urpih_convert_materials --path Assets/MyImportedPack --confirm true --result-only
+</code></pre>
+<p>The operation rechecks eligibility and saves successful changes. Materials it cannot safely convert are left unchanged and reported. <code>confirm false</code> (or a missing required confirmation) does not convert anything. The commands do <strong>not</strong> follow your Ask/Auto/Report Only preference: the command itself is the explicit action.</p>
+<p>If you're connected to an <strong>open Unity Editor</strong>, its named conversion step is available in <strong>Edit &gt; Undo</strong>, and URP Import Helper saves reverted materials. A full Editor restart loses that Undo history.</p>
+<h2 id="5-headless-runs-and-mcp">5. Headless runs and MCP</h2>
+<p>A headless Unity CLI run opens the project without the interactive Editor. The project path goes before <code>--</code>:</p>
+<pre><code class="language-sh">unity run --command urpih_analyze_materials . -- --path Assets/MyImportedPack
+unity run --command urpih_convert_materials . -- --path Assets/MyImportedPack --confirm true
+</code></pre>
+<p><strong>Headless conversions have no Unity Undo.</strong> Commit or back up your project before conversion, and use version control to revert if necessary.</p>
+<p>For MCP, start or configure Unity's MCP server for the target project (for example, <code>unity mcp --project-path &lt;project&gt;</code>), then connect it through your MCP-capable client. Give the agent a request like:</p>
+<blockquote>
+<p>I installed Thomp Tech URP Import Helper. Check the materials in my imported asset folder, tell me what is safe to convert, and ask for confirmation before converting anything.</p>
+</blockquote>
+<p>The two URPIH commands are exposed as MCP tools where supported. An agent should Analyze first, ask before converting, and report leftovers. A separate end-to-end agent-client usability test has not yet been completed; the command registration and raw MCP interface have been verified.</p>
+<h2 id="6-understand-the-result">6. Understand the result</h2>
+<p>Commands return structured schema-v1 results. A <strong>CLI exit code 0</strong> means a result was returned; it <strong>does not mean every material converted</strong>. Inspect:</p>
+<ul>
+<li><code>outcome</code> — <code>readyToConvert</code>, <code>converted</code>, <code>finishedWithFailures</code>, <code>unityHandoff</code>, <code>nothingToConvert</code>, or <code>noMaterials</code> as applicable.</li>
+<li><code>severity</code> — <code>info</code>, <code>warning</code>, or <code>error</code>.</li>
+<li><code>counts</code> — total, ready, converted, failed, not restored, and leftover counts.</li>
+<li><code>nextActions</code> — what to do next; give <code>undoBeforeSaving</code> priority when present.</li>
+<li><code>project.batchMode</code> — whether the command ran headlessly.</li>
+</ul>
+<p>The result contains details only for materials needing explanation; a clean conversion may be counted without its own per-material row. Unity-supported and other shaders are grouped in <code>byShader</code>.</p>
+<h2 id="7-troubleshooting-and-recovery">7. Troubleshooting and recovery</h2>
+<p><strong>Commands aren't listed?</strong> Confirm the Helper is installed in this project, Unity has finished compiling, <code>com.unity.pipeline</code> is <strong>exactly <code>0.8.0-exp.1</code></strong>, and <code>Editor/Pipeline</code> was included in the installation. Check the Console for an adapter-load or unsupported-version message. Core Editor conversion still works without it.</p>
+<p><strong>URP inactive or files not found?</strong> The operation refuses without converting. Activate URP, or correct the <code>Assets/...</code> path, then Analyze again.</p>
+<p><strong>A command times out?</strong> Don't blindly retry Convert: an open Editor may finish and save the conversion after the CLI stops waiting. <strong>Run Analyze again first</strong> to see what remains. For large folders or a whole project, Unity CLI supports a longer timeout (for example <code>--timeout 300</code>).</p>
+<p><strong>Some materials remain unchanged?</strong> Review <code>nextActions</code> and material reasons. V1 converts only safely supported Built-in Standard (metallic workflow) materials to URP/Lit; it doesn't modify custom shaders or embedded model materials.</p>
+<p><strong>Result says <code>notRestored</code>?</strong> In a live Editor follow the Undo-before-saving instruction. In headless execution, <strong>inspect and revert with version control</strong>; a failed material can be saved partially converted when the headless Editor exits.</p>
+<p>For ordinary import-time Ask/Auto/Report Only behavior, use <strong><a href="/urp-import-helper/docs/">Getting Started</a></strong>.</p>
+<div class="docs-next"><a class="btn outline" href="/urp-import-helper/docs/">&larr; Back: Getting Started</a></div>
+</main>
+</div>
+<footer class="site-footer">
+  <div class="wrap foot-row">
+    <img src="/images/logo-transparent.png" alt="Thomp Tech logo">
+    <p class="script">We make it so you play it!</p>
+    <p class="copy">&copy; 2026 Thomp Tech &middot; <a href="mailto:contact@thomptech.net">contact@thomptech.net</a></p>
+  </div>
+</footer>
+<script>(()=>{const h=document.querySelector(".site-header"),f=()=>h.classList.toggle("scrolled",scrollY>40);addEventListener("scroll",f,{passive:true});f()})();</script>
+</body>
+</html>

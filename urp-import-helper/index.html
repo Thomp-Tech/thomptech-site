@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>URP Import Helper | Thomp Tech</title>
+<meta name="description" content="URP Import Helper detects materials from imported Unity asset packages so you never forget to convert them.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/urp-import-helper/urpih.css">
+<link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap nav-row">
+    <a href="/" class="brand"><img src="/images/logo-float.png?v=2" alt="Thomp Tech Game Dev logo"></a>
+    <nav><a href="#how">How it works</a><a href="#features">Features</a><a href="/urp-import-helper/docs/">Docs</a><a href="/#contact">Contact</a></nav>
+  </div>
+</header>
+
+<section class="urp-hero">
+  <div class="wrap">
+    <p class="eyebrow">URP Import Helper by Thomp Tech</p>
+    <h1>URP Import Helper detects materials from imported Unity asset packages so you never forget to convert them.</h1>
+    <p class="lead">Import an asset package into your URP project as usual. URP Import Helper checks the materials in that import, safely converts supported Built-in Standard materials to URP/Lit, and explains what still needs attention.</p>
+    <div class="btns">
+      <!-- TODO: replace href with the live Unity Asset Store URL once the listing is approved -->
+      <a class="btn primary" href="#asset-store-link-pending">Get it on the Unity Asset Store</a>
+      <a class="btn outline" href="/urp-import-helper/docs/">Read the Getting Started guide</a>
+    </div>
+    <p class="store-note">Available exclusively on the Unity Asset Store.</p>
+  </div>
+</section>
+
+<section id="how" class="section">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2>Import as usual. Review. Convert.</h2>
+    <div class="steps">
+      <div class="step"><span class="num">1</span><h3>Import a package</h3><p>Import an older Asset Store <code>.unitypackage</code> as usual. After Unity finishes importing and compiling, URP Import Helper checks the materials included in that import.</p></div>
+      <div class="step"><span class="num">2</span><h3>Review</h3><p>In the default <strong>Ask</strong> mode, a non-modal review window shows how many materials are ready to convert, plus warnings and materials that will remain unchanged.</p></div>
+      <div class="step"><span class="num">3</span><h3>Convert</h3><p>Choose <strong>Convert</strong> or <strong>Not now</strong>. Supported materials become URP/Lit, and the whole batch is one named <strong>Edit &gt; Undo</strong> step.</p></div>
+    </div>
+    <div class="shot-grid">
+      <figure class="shot wide"><div class="ph-shot"><strong>Demo GIF coming</strong><span>Importing a package &rarr; review window &rarr; Convert &rarr; pink materials turn URP/Lit</span></div></figure>
+      <figure class="shot"><div class="ph-shot"><strong>Screenshot coming</strong><span>Ask-mode review window after a package import</span></div></figure>
+      <figure class="shot"><img src="img/convert-menu.webp" alt="Unity Project window right-click menu showing URP Import Helper > Convert Supported Materials to URP on the pink demo material" loading="lazy"><figcaption>Right-click a material or folder: <strong>URP Import Helper &gt; Convert Supported Materials to URP</strong>. The demo sphere is pink before conversion.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="section alt">
+  <div class="wrap">
+    <p class="eyebrow">Features</p>
+    <h2>Built to make converting imports a habit you don't have to remember</h2>
+    <div class="feat-grid">
+      <div class="feat"><h3>Safe conversion</h3><p>Converts standalone <code>.mat</code> assets from Built-in Standard (metallic workflow) to URP/Lit, only when they pass the safety checks. Everything else is left unchanged and explained.</p></div>
+      <div class="feat"><h3>Three modes</h3><p><strong>Ask</strong>, <strong>Convert automatically</strong>, or <strong>Report Only (Change Nothing)</strong>. Saved per user, per project.</p></div>
+      <div class="feat"><h3>Reporting</h3><p>The Console report covers counts, warnings and next steps. Expand <strong>Details</strong> and click a row to ping that material in the Project window.</p></div>
+      <div class="feat"><h3>Manual conversion</h3><p>Select <code>.mat</code> files or folders and convert on demand, in every mode, without importing another package.</p></div>
+      <div class="feat"><h3>Undo</h3><p>Each converted batch is one named Unity <strong>Edit &gt; Undo</strong> step, such as <strong>Convert 6 materials to URP</strong>. Reverted files are saved for you.</p></div>
+      <div class="feat"><h3>Optional CLI &amp; MCP</h3><p>On Unity 6+, analyze and convert through the Unity CLI or an MCP-capable AI agent. Not required for normal Editor use.</p></div>
+    </div>
+    <div class="shot-grid">
+      <figure class="shot wide"><img src="img/tools-menu.webp" alt="Tools > ThompTech > URP Import Helper > When Importing menu showing Ask, Convert automatically and Report Only (Change Nothing)" loading="lazy"><figcaption><strong>Tools &gt; ThompTech &gt; URP Import Helper &gt; When Importing</strong>: choose your mode.</figcaption></figure>
+      <figure class="shot"><img src="img/after-convert.webp" alt="Demo sphere converted to blue with the Inspector showing Universal Render Pipeline/Lit and the conversion report in the Console" loading="lazy"><figcaption>After conversion: the demo sphere turns blue using URP/Lit, with the report in the Console.</figcaption></figure>
+      <figure class="shot"><img src="img/edit-undo.webp" alt="Unity Edit menu showing Undo Convert 1 material to URP" loading="lazy"><figcaption><strong>Edit &gt; Undo Convert 1 material to URP</strong> restores the original material.</figcaption></figure>
+      <figure class="shot"><div class="ph-shot"><strong>Screenshot coming</strong><span>Receipt window with Details expanded (leftovers needing attention)</span></div></figure>
+      <figure class="shot"><div class="ph-shot"><strong>Screenshot coming</strong><span>CLI analyze result (terminal) or MCP agent session</span></div></figure>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap two-col">
+    <div>
+      <p class="eyebrow">Requirements</p>
+      <h2>What you need</h2>
+      <ul class="features">
+        <li>A Unity project with the Universal Render Pipeline (URP) installed and active.</li>
+        <li>Editor-only. It does not add runtime components to your game.</li>
+        <li>Optional CLI/MCP: Unity 6+ and <code>com.unity.pipeline</code> 0.8.0-exp.1. See the <a href="/urp-import-helper/docs/cli-mcp/">CLI &amp; MCP Quick Start</a>.</li>
+      </ul>
+    </div>
+    <div>
+      <p class="eyebrow">Limitations</p>
+      <h2>What V1 doesn't do</h2>
+      <ul class="features">
+        <li>Converts Built-in Standard (metallic workflow) to URP/Lit only. Publisher and custom shaders are not modified.</li>
+        <li>Embedded model materials and material variants are not converted in V1.</li>
+        <li>Installing it does not scan or convert your existing project, and it does not migrate a whole project's render pipeline.</li>
+        <li>Undo history does not survive a full Editor restart. Headless CLI runs have no Unity Undo; use version control.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="wrap center">
+    <p class="eyebrow">Documentation</p>
+    <h2>Get started in a few minutes</h2>
+    <p>Install, try the included demo, and convert your first import.</p>
+    <div class="doc-links" style="justify-content:center">
+      <a class="btn primary" href="/urp-import-helper/docs/">Getting Started</a>
+      <a class="btn outline" href="/urp-import-helper/docs/cli-mcp/">CLI &amp; MCP Quick Start</a>
+      <a class="btn outline" href="mailto:contact@thomptech.net">Support: contact@thomptech.net</a>
+    </div>
+    <div class="btns center-btns">
+      <!-- TODO: replace href with the live Unity Asset Store URL once the listing is approved -->
+      <a class="btn primary" href="#asset-store-link-pending">Get it on the Unity Asset Store</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap foot-row">
+    <img src="/images/logo-transparent.png" alt="Thomp Tech logo">
+    <p class="script">We make it so you play it!</p>
+    <p class="copy">&copy; 2026 Thomp Tech &middot; <a href="mailto:contact@thomptech.net">contact@thomptech.net</a></p>
+  </div>
+</footer>
+<script>(()=>{const h=document.querySelector(".site-header"),f=()=>h.classList.toggle("scrolled",scrollY>40);addEventListener("scroll",f,{passive:true});f()})();</script>
+</body>
+</html>

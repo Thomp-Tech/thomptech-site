@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting Started | URP Import Helper Docs | Thomp Tech</title>
+<meta name="description" content="Getting Started guide for URP Import Helper by Thomp Tech.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/urp-import-helper/urpih.css">
+<link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body class="docs-page">
+<header class="site-header">
+  <div class="wrap nav-row">
+    <a href="/" class="brand"><img src="/images/logo-float.png?v=2" alt="Thomp Tech Game Dev logo"></a>
+    <nav><a href="/urp-import-helper/">URP Import Helper</a><a href="/urp-import-helper/docs/">Docs</a><a href="/#contact">Contact</a></nav>
+  </div>
+</header>
+<div class="wrap docs-layout">
+<aside class="docs-side">
+  <details open><summary>URP Import Helper Docs</summary>
+  <p class="side-h">Guides</p>
+  <ul><li><a href="/urp-import-helper/docs/" class="active">Getting Started</a></li><li><a href="/urp-import-helper/docs/cli-mcp/">CLI &amp; MCP Quick Start</a></li></ul>
+  <p class="side-h">On this page</p>
+  
+<ul>
+<li><a href="#1-requirements">1. Requirements</a></li>
+<li><a href="#2-installation">2. Installation</a><ul>
+<li><a href="#try-the-included-demo">Try the included demo</a></li>
+</ul>
+</li>
+<li><a href="#3-your-first-package-import">3. Your first package import</a></li>
+<li><a href="#4-choose-your-import-mode">4. Choose your import mode</a></li>
+<li><a href="#5-convert-existing-materials">5. Convert existing materials</a></li>
+<li><a href="#6-understand-results-and-undo">6. Understand results and Undo</a><ul>
+<li><a href="#undo-and-redo">Undo and Redo</a></li>
+</ul>
+</li>
+<li><a href="#7-materials-that-need-attention">7. Materials that need attention</a><ul>
+<li><a href="#unitys-converter-handoff">Unity's converter handoff</a></li>
+</ul>
+</li>
+<li><a href="#8-troubleshooting">8. Troubleshooting</a></li>
+<li><a href="#9-optional-cli-and-ai-agent-integration">9. Optional CLI and AI agent integration</a></li>
+</ul>
+
+
+  <p class="side-h">Support</p>
+  <ul><li><a href="mailto:contact@thomptech.net">contact@thomptech.net</a></li></ul>
+  </details>
+</aside>
+<main class="docs-main">
+<p class="crumbs"><a href="/urp-import-helper/">URP Import Helper</a> / Docs / Getting Started</p>
+<h1 id="getting-started-urp-import-helper">Getting Started — URP Import Helper</h1>
+<p><strong>By Thomp Tech</strong></p>
+<p>URP Import Helper detects materials from imported Unity asset packages so you never forget to convert them.</p>
+<p>URPIH safely converts supported Built-in Standard materials to URP/Lit, and explains what still needs attention.</p>
+<p>Installing the tool does not automatically scan or convert your existing project.</p>
+<p>URP Import Helper is Editor-only. It does not add runtime components to your game.</p>
+<h2 id="1-requirements">1. Requirements</h2>
+<ul>
+<li>A Unity project with the Universal Render Pipeline (URP) installed and active.</li>
+</ul>
+<h2 id="2-installation">2. Installation</h2>
+<ol>
+<li>Open your URP project in Unity.</li>
+<li>In <strong>Window &gt; Package Manager &gt; My Assets</strong>, locate URP Import Helper and import it into your project.<ul>
+<li>If you have a <code>.unitypackage</code> file, use <strong>Assets &gt; Import Package &gt; Custom Package</strong> instead.</li>
+</ul>
+</li>
+<li>Allow Unity to finish importing and compiling.</li>
+<li>Find the tool under <strong>Tools &gt; ThompTech &gt; URP Import Helper</strong>.</li>
+</ol>
+<h3 id="try-the-included-demo">Try the included demo</h3>
+<ol>
+<li>Open <code>Assets/ThompTech/URPImportHelper/Demo/URPIH_Demo.unity</code>.</li>
+<li>The demo sphere initially appears pink because it uses the Built-in Standard shader.</li>
+<li>Right-click <code>Demo_Standard.mat</code> and select <strong>URP Import Helper &gt; Convert Supported Materials to URP</strong>.</li>
+<li>The sphere should turn blue, using URP/Lit.</li>
+<li>Use <strong>Edit &gt; Undo Convert 1 material to URP</strong> to restore the original material.</li>
+</ol>
+<h2 id="3-your-first-package-import">3. Your first package import</h2>
+<p>The default mode is <strong>Ask</strong>. Import an older Asset Store <code>.unitypackage</code> as usual. After Unity finishes importing and compiling, URP Import Helper checks the materials included in that import.</p>
+<p>If supported materials are found, a non-modal review window appears:</p>
+<ol>
+<li>Review the number of materials ready to convert.</li>
+<li>Expand <strong>Details</strong> to inspect warnings and materials that will remain unchanged.</li>
+<li>Choose <strong>Convert</strong> to convert supported materials or <strong>Not now</strong> to leave them unchanged.</li>
+</ol>
+<p><strong>Important:</strong> The checkbox to automatically convert supported materials on future imports is <strong>checked by default</strong>. Uncheck it <strong>before</strong> clicking Convert if you want to stay in Ask mode. It takes effect only when you convert.</p>
+<p>Closing the window keeps the review pending. Reopen it using <strong>Tools &gt; ThompTech &gt; URP Import Helper &gt; Review Pending Import</strong>. Pending reviews do not survive a full Unity restart; use manual conversion afterward.</p>
+<p>Not every import opens a window. If Unity's converter can handle materials but none are ready for URPIH, you may see a handoff window. Otherwise, check the <strong>Console</strong> for the import summary. The tool never blocks Unity with a modal import dialog.</p>
+<h2 id="4-choose-your-import-mode">4. Choose your import mode</h2>
+<p>Open <strong>Tools &gt; ThompTech &gt; URP Import Helper &gt; When Importing</strong>:</p>
+<ul>
+<li><strong>Ask:</strong> Review supported materials before converting.</li>
+<li><strong>Convert automatically:</strong> Convert materials that pass the safety checks after each qualifying package import.</li>
+<li><strong>Report Only (Change Nothing):</strong> Analyze and report without converting any materials.</li>
+</ul>
+<p>Your choice is saved per user, per project, and survives Editor restarts. Automatic detection applies to active <code>.unitypackage</code> imports, <strong>not</strong> ordinary asset edits or copied files.</p>
+<h2 id="5-convert-existing-materials">5. Convert existing materials</h2>
+<p>You can convert materials on demand without importing another package:</p>
+<ol>
+<li>Select <code>.mat</code> files or folders in Unity's <strong>Project</strong> window.</li>
+<li>Right-click and choose <strong>URP Import Helper &gt; Convert Supported Materials to URP</strong>. The same command is under <strong>Tools &gt; ThompTech &gt; URP Import Helper</strong>.</li>
+</ol>
+<p>This works in every import mode, including Report Only. It converts only materials that pass the safety checks and saves successful conversions <strong>to disk immediately</strong>. Start with the folder you intend to convert rather than the entire <code>Assets</code> directory.</p>
+<h2 id="6-understand-results-and-undo">6. Understand results and Undo</h2>
+<p>The <strong>Console</strong> contains the conversion report: counts, warnings and next steps. Clean successful conversions may show a brief Scene view message without opening a new window. A receipt appears when failures or actionable leftovers need attention. Expand <strong>Details</strong> to inspect materials; clicking a material row <strong>pings</strong> it in the Project window without changing your selection.</p>
+<h3 id="undo-and-redo">Undo and Redo</h3>
+<p>A converted batch is recorded as one named Unity <strong>Edit &gt; Undo</strong> step, such as <strong>Convert 6 materials to URP</strong>. Check the Edit menu for the correct step if other Editor actions happened afterward.</p>
+<p>Undo restores the materials and URP Import Helper automatically saves those reverted files. Redo saves reapplied changes as well. <strong>Undo history does not survive a full Editor restart.</strong> Use version control or backups for long-term recovery.</p>
+<h2 id="7-materials-that-need-attention">7. Materials that need attention</h2>
+<p>V1 converts standalone <code>.mat</code> assets using <strong>Built-in Standard (metallic workflow) → URP/Lit</strong>. Supported textures and settings transfer with adjustments where the two shaders handle properties differently.</p>
+<p>Other materials are left unchanged and explained:</p>
+<ul>
+<li><strong>Supported by Unity's converter:</strong> Follow the handoff to <strong>Window &gt; Rendering &gt; Render Pipeline Converter</strong> when this Unity/URP version's catalog is verified.</li>
+<li><strong>Unsafe Standard materials or missing shaders:</strong> Read the reported reason, including missing, mismatched or unreadable texture references. Check and restore dependencies before trying again.</li>
+<li><strong>Publisher or custom shaders:</strong> Check rendering and whether the publisher offers a compatible URP version. URPIH does not modify these shaders.</li>
+<li><strong>Appears intended for HDRP:</strong> Confirm whether the assets belong in your URP project. This is a hint, not a confirmed diagnosis.</li>
+<li><strong>TextMesh Pro:</strong> Its materials generally work in URP when the appropriate resources are installed.</li>
+<li><strong>Other shaders / already URP:</strong> Check appearance before deciding whether anything needs to change.</li>
+</ul>
+<p>Known visual differences can include Transparent/Fade shadow behavior, detail maps that use UV1, or a custom render queue changing. A warning does not necessarily mean a conversion failed. Embedded model materials and material variants are not converted in V1.</p>
+<h3 id="unitys-converter-handoff">Unity's converter handoff</h3>
+<p>If URPIH can convert some materials and Unity's converter can handle other materials, <strong>convert ours first</strong>, then open Unity's converter for the leftovers. If URPIH has <strong>nothing ready</strong>, use the direct handoff instead of running a pointless conversion first. Unity's Render Pipeline Converter may scan the whole project, not just the newly imported package.</p>
+<h2 id="8-troubleshooting">8. Troubleshooting</h2>
+<p><strong>No menu after installation?</strong> Wait for Unity to compile. Check the Console for errors. The tool is an Editor extension, not a GameObject component.</p>
+<p><strong>No review window after importing?</strong> Confirm you're in Ask mode and check the Console. Not every package contains convertible materials; a handoff window may appear instead.</p>
+<p><strong>Some materials are still pink?</strong> Read the reported shader and reason. Some need Unity's converter, publisher-provided shaders or missing dependencies; V1 doesn't convert every shader.</p>
+<p><strong>URP isn't active?</strong> Configure the active URP pipeline before converting. URP Import Helper does not migrate an entire project's rendering pipeline.</p>
+<p><strong>Lost a pending review after restarting Unity?</strong> Select the imported folder and use the manual conversion command.</p>
+<p><strong>NOT RESTORED after a failure?</strong> Follow the red report's <strong>Undo before saving</strong> instruction in the current Editor session. Don't assume the material was restored.</p>
+<p><strong>An imported asset's demo has Input errors?</strong> The asset pack may use the legacy Input Manager. If appropriate for your project, check <strong>Project Settings &gt; Player &gt; Active Input Handling</strong>; <em>Both</em> can resolve that separate pack issue. It isn't caused by material conversion.</p>
+<h2 id="9-optional-cli-and-ai-agent-integration">9. Optional CLI and AI agent integration</h2>
+<p>On <strong>Unity 6+</strong>, a supported Unity Pipeline installation can register two optional commands:</p>
+<ul>
+<li><code>urpih_analyze_materials</code> — read-only analysis.</li>
+<li><code>urpih_convert_materials</code> — conversion that requires explicit <code>confirm true</code>.</li>
+</ul>
+<p>The current adapter is pinned to <code>com.unity.pipeline</code> <strong>0.8.0-exp.1</strong>. Neither the Pipeline package nor the Unity CLI is required for normal Editor use. For setup, examples, result interpretation and unattended-run recovery, see <strong><a href="/urp-import-helper/docs/cli-mcp/">CLI &amp; MCP Quick Start</a></strong>.</p>
+<p>Headless command runs have <strong>no Unity Undo</strong>; use version control to restore changed materials. CLI conversion in an open Editor retains the normal live-Editor Undo behavior.</p>
+<div class="docs-next"><a class="btn outline" href="/urp-import-helper/docs/cli-mcp/">Next: CLI &amp; MCP Quick Start &rarr;</a></div>
+</main>
+</div>
+<footer class="site-footer">
+  <div class="wrap foot-row">
+    <img src="/images/logo-transparent.png" alt="Thomp Tech logo">
+    <p class="script">We make it so you play it!</p>
+    <p class="copy">&copy; 2026 Thomp Tech &middot; <a href="mailto:contact@thomptech.net">contact@thomptech.net</a></p>
+  </div>
+</footer>
+<script>(()=>{const h=document.querySelector(".site-header"),f=()=>h.classList.toggle("scrolled",scrollY>40);addEventListener("scroll",f,{passive:true});f()})();</script>
+</body>
+</html>
