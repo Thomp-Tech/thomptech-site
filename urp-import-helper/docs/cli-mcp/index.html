@@ -25,12 +25,13 @@
   
 <ul>
 <li><a href="#1-requirements">1. Requirements</a></li>
-<li><a href="#2-discover-the-commands">2. Discover the commands</a></li>
-<li><a href="#3-analyze-before-you-convert">3. Analyze before you convert</a></li>
-<li><a href="#4-confirm-conversion">4. Confirm conversion</a></li>
-<li><a href="#5-headless-runs-and-mcp">5. Headless runs and MCP</a></li>
-<li><a href="#6-understand-the-result">6. Understand the result</a></li>
-<li><a href="#7-troubleshooting-and-recovery">7. Troubleshooting and recovery</a></li>
+<li><a href="#2-install-unity-pipeline-optional">2. Install Unity Pipeline (optional)</a></li>
+<li><a href="#3-discover-the-commands">3. Discover the commands</a></li>
+<li><a href="#4-analyze-before-you-convert">4. Analyze before you convert</a></li>
+<li><a href="#5-confirm-conversion">5. Confirm conversion</a></li>
+<li><a href="#6-headless-runs-and-mcp">6. Headless runs and MCP</a></li>
+<li><a href="#7-understand-the-result">7. Understand the result</a></li>
+<li><a href="#8-troubleshooting-and-recovery">8. Troubleshooting and recovery</a></li>
 </ul>
 
 
@@ -48,10 +49,20 @@
 <li>A <strong>Unity 6+</strong> project with URP installed <strong>and active</strong>.</li>
 <li><strong>URP Import Helper installed in that project</strong>. Owning the Asset Store asset alone does not register commands.</li>
 <li>Unity CLI installed and connected to the relevant Unity Editor/project, or an MCP-capable client connected through <code>unity mcp</code>.</li>
-<li>Unity's optional <strong><code>com.unity.pipeline</code> version <code>0.8.0-exp.1</code></strong> installed in the project through Package Manager. This exact version is the currently tested adapter pin; other versions do not enable these commands unless a later URP Import Helper release explicitly supports them.</li>
+<li>Unity's optional <strong><code>com.unity.pipeline</code> version <code>0.8.0-exp.1</code></strong> installed in the project. This package is <strong>not included with URP Import Helper or Unity CLI</strong>. The adapter is tested only with this version; other versions do not enable the commands unless a later release explicitly supports them.</li>
 </ul>
 <p>The tool includes its optional <code>Editor/Pipeline</code> adapter. When the required Pipeline version is present, Unity compiles the adapter and registers the commands. The core tool still works without Pipeline, including in the best-effort Unity 2022.3 Editor workflow; the CLI/MCP adapter is Unity 6+ only.</p>
-<h2 id="2-discover-the-commands">2. Discover the commands</h2>
+<h2 id="2-install-unity-pipeline-optional">2. Install Unity Pipeline (optional)</h2>
+<p>Skip this section if you only use URP Import Helper inside the Unity Editor. For CLI or MCP, install Pipeline <strong>in the Unity project you want to control</strong>:</p>
+<ol>
+<li>Open the project in Unity, then open <strong>Window &gt; Package Manager</strong>.</li>
+<li>Choose <strong>Install package by name</strong> from the <strong>+</strong> menu.</li>
+<li>Enter <strong>Name:</strong> <code>com.unity.pipeline</code> and <strong>Version:</strong> <code>0.8.0-exp.1</code>, then click <strong>Install</strong>.</li>
+<li>Let Unity finish compiling. In a terminal with Unity CLI installed, run <code>unity pipeline list</code> and check that Pipeline is installed for your project.</li>
+<li>Run <code>unity command --query urpih</code> to confirm both URP Import Helper commands appear.</li>
+</ol>
+<p>You can also install the pinned package through the CLI using <code>unity pipeline install --package-version 0.8.0-exp.1</code> while targeting your project. <strong>Don't use an unpinned install or upgrade command</strong> for V1; it may select a newer Pipeline version that this adapter doesn't support. See <a href="https://docs.unity.com/en-us/unity-cli/unity-pipeline/unity-pipeline-package">Unity's Pipeline setup guide</a> for general CLI setup.</p>
+<h2 id="3-discover-the-commands">3. Discover the commands</h2>
 <p>With the Unity CLI configured for your project, list URP Import Helper commands:</p>
 <pre><code class="language-sh">unity command --query urpih
 </code></pre>
@@ -61,18 +72,18 @@
 <li><strong><code>urpih_convert_materials</code></strong> — converts only materials judged safe, and requires <code>confirm true</code>.</li>
 </ul>
 <p>If they aren't listed, see Troubleshooting below. An unsupported Pipeline version intentionally leaves the adapter inactive; it doesn't prevent the normal Editor menu from working.</p>
-<h2 id="3-analyze-before-you-convert">3. Analyze before you convert</h2>
+<h2 id="4-analyze-before-you-convert">4. Analyze before you convert</h2>
 <p>Use a project-relative path such as <code>Assets/MyImportedPack</code> or a single <code>Assets/.../Material.mat</code>. Analyze first:</p>
 <pre><code class="language-sh">unity command urpih_analyze_materials --path Assets/MyImportedPack --result-only
 </code></pre>
 <p>This is <strong>read-only</strong>. It doesn't change materials, mode, pending imports, Undo state, or UI. Review the returned <code>counts</code>, <code>materials</code>, <code>byShader</code>, <code>nextActions</code>, <code>outcome</code> and <code>severity</code> before deciding what to do.</p>
-<h2 id="4-confirm-conversion">4. Confirm conversion</h2>
+<h2 id="5-confirm-conversion">5. Confirm conversion</h2>
 <p>Only if you want to change the supported materials at that path:</p>
 <pre><code class="language-sh">unity command urpih_convert_materials --path Assets/MyImportedPack --confirm true --result-only
 </code></pre>
 <p>The operation rechecks eligibility and saves successful changes. Materials it cannot safely convert are left unchanged and reported. <code>confirm false</code> (or a missing required confirmation) does not convert anything. The commands do <strong>not</strong> follow your Ask/Auto/Report Only preference: the command itself is the explicit action.</p>
 <p>If you're connected to an <strong>open Unity Editor</strong>, its named conversion step is available in <strong>Edit &gt; Undo</strong>, and URP Import Helper saves reverted materials. A full Editor restart loses that Undo history.</p>
-<h2 id="5-headless-runs-and-mcp">5. Headless runs and MCP</h2>
+<h2 id="6-headless-runs-and-mcp">6. Headless runs and MCP</h2>
 <p>A headless Unity CLI run opens the project without the interactive Editor. The project path goes before <code>--</code>:</p>
 <pre><code class="language-sh">unity run --command urpih_analyze_materials . -- --path Assets/MyImportedPack
 unity run --command urpih_convert_materials . -- --path Assets/MyImportedPack --confirm true
@@ -83,7 +94,7 @@ unity run --command urpih_convert_materials . -- --path Assets/MyImportedPack --
 <p>I installed Thomp Tech URP Import Helper. Check the materials in my imported asset folder, tell me what is safe to convert, and ask for confirmation before converting anything.</p>
 </blockquote>
 <p>The two URPIH commands are exposed as MCP tools where supported. An agent should Analyze first, ask before converting, and report leftovers. A separate end-to-end agent-client usability test has not yet been completed; the command registration and raw MCP interface have been verified.</p>
-<h2 id="6-understand-the-result">6. Understand the result</h2>
+<h2 id="7-understand-the-result">7. Understand the result</h2>
 <p>Commands return structured schema-v1 results. A <strong>CLI exit code 0</strong> means a result was returned; it <strong>does not mean every material converted</strong>. Inspect:</p>
 <ul>
 <li><code>outcome</code> — <code>readyToConvert</code>, <code>converted</code>, <code>finishedWithFailures</code>, <code>unityHandoff</code>, <code>nothingToConvert</code>, or <code>noMaterials</code> as applicable.</li>
@@ -93,7 +104,7 @@ unity run --command urpih_convert_materials . -- --path Assets/MyImportedPack --
 <li><code>project.batchMode</code> — whether the command ran headlessly.</li>
 </ul>
 <p>The result contains details only for materials needing explanation; a clean conversion may be counted without its own per-material row. Unity-supported and other shaders are grouped in <code>byShader</code>.</p>
-<h2 id="7-troubleshooting-and-recovery">7. Troubleshooting and recovery</h2>
+<h2 id="8-troubleshooting-and-recovery">8. Troubleshooting and recovery</h2>
 <p><strong>Commands aren't listed?</strong> Confirm the Helper is installed in this project, Unity has finished compiling, <code>com.unity.pipeline</code> is <strong>exactly <code>0.8.0-exp.1</code></strong>, and <code>Editor/Pipeline</code> was included in the installation. Check the Console for an adapter-load or unsupported-version message. Core Editor conversion still works without it.</p>
 <p><strong>URP inactive or files not found?</strong> The operation refuses without converting. Activate URP, or correct the <code>Assets/...</code> path, then Analyze again.</p>
 <p><strong>A command times out?</strong> Don't blindly retry Convert: an open Editor may finish and save the conversion after the CLI stops waiting. <strong>Run Analyze again first</strong> to see what remains. For large folders or a whole project, Unity CLI supports a longer timeout (for example <code>--timeout 300</code>).</p>
