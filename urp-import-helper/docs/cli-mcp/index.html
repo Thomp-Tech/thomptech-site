@@ -58,7 +58,7 @@
 <li>Open the project in Unity, then open <strong>Window &gt; Package Manager</strong>.</li>
 <li>Choose <strong>Install package by name</strong> from the <strong>+</strong> menu.</li>
 <li>Enter <strong>Name:</strong> <code>com.unity.pipeline</code> and <strong>Version:</strong> <code>0.8.0-exp.1</code>, then click <strong>Install</strong>.</li>
-<li>Let Unity finish compiling. In a terminal with Unity CLI installed, run <code>unity pipeline list</code> and check that Pipeline is installed for your project.</li>
+<li>Let Unity finish compiling. If the Editor hasn't picked up the new package, focus the Unity Editor window once and allow it to refresh. In a terminal with Unity CLI installed, run <code>unity pipeline list</code> and check that Pipeline is installed for your project.</li>
 <li>Run <code>unity command --query urpih</code> to confirm both URP Import Helper commands appear.</li>
 </ol>
 <p>You can also install the pinned package through the CLI using <code>unity pipeline install --package-version 0.8.0-exp.1</code> while targeting your project. <strong>Don't use an unpinned install or upgrade command</strong> for V1; it may select a newer Pipeline version that this adapter doesn't support. See <a href="https://docs.unity.com/en-us/unity-cli/unity-pipeline/unity-pipeline-package">Unity's Pipeline setup guide</a> for general CLI setup.</p>
@@ -81,7 +81,7 @@
 <p>Only if you want to change the supported materials at that path:</p>
 <pre><code class="language-sh">unity command urpih_convert_materials --path Assets/MyImportedPack --confirm true --result-only
 </code></pre>
-<p>The operation rechecks eligibility and saves successful changes. Materials it cannot safely convert are left unchanged and reported. <code>confirm false</code> (or a missing required confirmation) does not convert anything. The commands do <strong>not</strong> follow your Ask/Auto/Report Only preference: the command itself is the explicit action.</p>
+<p>The operation rechecks eligibility and saves successful changes. Materials it cannot safely convert are left unchanged and reported. <code>--confirm false</code> is refused by URP Import Helper. Omitting <code>--confirm</code> entirely produces Pipeline's generic missing-parameter error instead; neither case changes materials. The commands do <strong>not</strong> follow your Ask/Auto/Report Only preference: the command itself is the explicit action.</p>
 <p>If you're connected to an <strong>open Unity Editor</strong>, its named conversion step is available in <strong>Edit &gt; Undo</strong>, and URP Import Helper saves reverted materials. A full Editor restart loses that Undo history.</p>
 <h2 id="6-headless-runs-and-mcp">6. Headless runs and MCP</h2>
 <p>A headless Unity CLI run opens the project without the interactive Editor. The project path goes before <code>--</code>:</p>
