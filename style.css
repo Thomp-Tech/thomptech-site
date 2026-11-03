@@ -82,7 +82,7 @@ nav a:hover{color:var(--blue)}
 .features li{position:relative;padding-left:22px;margin:7px 0;line-height:1.45}
 .features li::before{content:"";position:absolute;left:0;top:.45em;width:10px;height:10px;border-radius:3px;background:var(--blue)}
 .features strong{color:var(--navy)}
-@media(min-width:801px){#devlog .duo-img{flex:1;min-height:0}#devlog .duo-img img{height:100%;aspect-ratio:auto}#devlog .duo-body{flex:0 0 auto}}
+#devlog .duo-img img{display:block;height:auto;aspect-ratio:16/9;object-fit:cover}
 /* floating logo */
 .nav-row{position:relative;justify-content:flex-end}
 .brand{position:absolute;left:24px;top:8px;z-index:20;transition:transform .3s ease}
