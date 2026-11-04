@@ -13,7 +13,7 @@ h3{font-size:1.15rem;font-weight:700}
 nav{display:flex;gap:28px}
 nav a{color:var(--navy);text-decoration:none;font-weight:700;font-size:.95rem}
 nav a:hover{color:var(--blue)}
-.hero{min-height:600px;display:flex;align-items:center;background:linear-gradient(90deg,rgba(255,255,255,.88) 0%,rgba(255,255,255,.6) 40%,rgba(255,255,255,0) 68%),url(images/hero.webp) center/cover}
+.hero{min-height:600px;display:flex;align-items:flex-start;padding-top:15px;background:linear-gradient(90deg,rgba(255,255,255,.88) 0%,rgba(255,255,255,.6) 40%,rgba(255,255,255,0) 68%),url(images/hero.webp) center/cover}
 .hero-inner{width:100%}
 .hero h1{font-size:clamp(2.2rem,5vw,3.8rem);font-weight:900;max-width:640px;margin-bottom:.2em}
 .hero h1 span{color:var(--blue)}

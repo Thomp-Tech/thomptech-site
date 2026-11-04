@@ -1,5 +1,5 @@
 /* URP Import Helper product + docs pages (extends /style.css) */
-.urp-hero{background:linear-gradient(135deg,#0B1F3A 0%,#12325e 60%,#1E8BFF 140%);color:#fff;padding:172px 0 70px}
+.urp-hero{background:linear-gradient(135deg,#0B1F3A 0%,#12325e 60%,#1E8BFF 140%);color:#fff;padding:108px 0 70px}
 .urp-hero h1{color:#fff;font-size:clamp(1.8rem,4vw,3rem);font-weight:900;max-width:900px;line-height:1.2}
 .urp-hero .eyebrow{color:#8cc4ff}
 .urp-hero .lead{color:#dbe7f7;max-width:720px}
