@@ -96,5 +96,5 @@ nav a:hover{color:var(--blue)}
  .site-header.scrolled .brand img{height:52px}
  nav{gap:4px 12px;justify-content:flex-end}nav a{font-size:.8rem}
  html{scroll-padding-top:72px}
- .hero-inner{padding-top:50px}
+ .hero-inner{padding-top:20px}
 }
